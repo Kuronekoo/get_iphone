@@ -54,12 +54,12 @@ jobs:
 
     # Step 7: 配置阿里云 CLI
     - name: Configure Aliyun CLI
-      run: |
-        aliyun configure set --profile akProfile \
-          --mode AK \
-          --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID }} \
-          --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }} \
-          --region oss-cn-hangzhou
+      run: >
+        aliyun configure set --profile akProfile
+        --mode AK
+        --access-key-id ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+        --access-key-secret ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+        --region oss-cn-guangzhou
 
     # Step 8: 上传到 OSS
     - name: Upload to OSS
