@@ -3,10 +3,11 @@ name: Build Windows Executable
 on:
   push:
     branches:
-      - main  # 触发条件：当推送代码到 main 分支时触发
+      - main
   pull_request:
     branches:
-      - main  # 触发条件：当提交 Pull Request 到 main 分支时触发
+      - main
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   build:
