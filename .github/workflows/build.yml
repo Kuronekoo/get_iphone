@@ -32,19 +32,31 @@ jobs:
 
     # Step 4: 打包为 .exe 文件
     - name: Build executable
-      shell: bash
       run: |
         pyinstaller --onefile --windowed --noconsole get_iphone_v2.py
-        echo "Contents of dist directory:"
-        ls -R dist/
-        if [ -z "$(ls -A dist/)" ]; then
-          echo "Error: dist directory is empty!"
-          exit 1
-        fi
 
-    # Step 5: 上传构建产物
-    - name: Upload artifact
-      uses: actions/upload-artifact@refs/tags/v3
-      with:
-        name: iphone_v2
-        path: ${{ github.workspace }}/dist/
+    # Step 5: 验证 dist 目录
+    - name: Verify dist directory
+      shell: pwsh
+      run: |
+        $distPath = "${{ github.workspace }}\dist"
+        if (-Not (Test-Path $distPath)) {
+          Write-Host "Error: dist directory does not exist!"
+          exit 1
+        }
+        $files = Get-ChildItem -Path $distPath
+        if ($files.Count -eq 0) {
+          Write-Host "Error: dist directory is empty!"
+          exit 1
+        }
+        Write-Host "Dist directory contents:"
+        Get-ChildItem -Path $distPath | ForEach-Object { Write-Host $_.Name }
+
+    # Step 6: 提交 .exe 文件到仓库
+    - name: Commit and push executable
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add dist/*.exe
+        git commit -m "Add built executable"
+        git push origin main
