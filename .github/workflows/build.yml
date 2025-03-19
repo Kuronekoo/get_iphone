@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@refs/tags/v3
       with:
         name: get_iphone_v2
-        path: dist/  # 打包后的文件会存储在 dist/ 目录中
+        path: ${{ github.workspace }}/dist/
