@@ -7,11 +7,11 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest  # 使用 GitHub 提供的最新 Windows 虚拟机
+    runs-on: windows-latest
 
     steps:
     # Step 1: 检出代码
@@ -22,7 +22,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'  # 替换为你需要的 Python 版本，如 3.9 或 3.10
+        python-version: '3.x'
 
     # Step 3: 安装依赖
     - name: Install dependencies
@@ -34,11 +34,16 @@ jobs:
     - name: Build executable
       run: |
         pyinstaller --onefile --windowed --noconsole get_iphone_v2.py
-    - name: List files in workspace
-      run: ls -R ${{ github.workspace }}
+        echo "Contents of dist directory:"
+        ls -R dist/
+        if [ -z "$(ls -A dist/)" ]; then
+          echo "Error: dist directory is empty!"
+          exit 1
+        fi
+
     # Step 5: 上传构建产物
     - name: Upload artifact
-      uses: actions/upload-artifact@refs/tags/v3
+      uses: actions/upload-artifact@v3
       with:
-        name: get_iphone_v2
+        name: iphone_v2
         path: ${{ github.workspace }}/dist/
