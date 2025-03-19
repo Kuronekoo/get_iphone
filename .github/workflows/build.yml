@@ -43,7 +43,7 @@ jobs:
 
     # Step 5: 上传构建产物
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@refs/tags/v3
       with:
         name: iphone_v2
         path: ${{ github.workspace }}/dist/
