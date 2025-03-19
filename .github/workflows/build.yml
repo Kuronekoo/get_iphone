@@ -37,7 +37,7 @@ jobs:
 
     # Step 5: 上传构建产物
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@refs/tags/v3
       with:
         name: dist
         path: dist/  # 打包后的文件会存储在 dist/ 目录中
