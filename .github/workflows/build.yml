@@ -34,7 +34,8 @@ jobs:
     - name: Build executable
       run: |
         pyinstaller --onefile --windowed --noconsole get_iphone_v2.py
-
+    - name: List files in workspace
+      run: ls -R ${{ github.workspace }}
     # Step 5: 上传构建产物
     - name: Upload artifact
       uses: actions/upload-artifact@refs/tags/v3
