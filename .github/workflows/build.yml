@@ -3,10 +3,10 @@ name: Build Windows Executable
 on:
   push:
     branches:
-      - main
+      - main  # 替换为你的实际分支名称
   pull_request:
     branches:
-      - main
+      - main  # 替换为你的实际分支名称
   workflow_dispatch:
 
 jobs:
@@ -58,5 +58,5 @@ jobs:
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add dist/*.exe
-        git commit -m "Add built executable"
-        git push origin main
+        git commit -m "Add built executable" || echo "No changes to commit"
+        git push origin ${{ github.ref_name }} || echo "Failed to push changes"
